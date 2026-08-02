@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>S.O.S - Methodist Primary School</title>
+  
+  <!-- Tetapan PWA / Home Screen Icon -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="MPS-S.O.S">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/nq1VXtqN/DH-LOGO.png">
+  <link rel="icon" type="image/png" href="https://i.ibb.co/nq1VXtqN/DH-LOGO.png">
+
+  <!-- Google Fonts & Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #f8fafc;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .sos-title {
+      font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s cubic-bezier(0, 1, 0, 1);
+    }
+    .accordion-content.active {
+      max-height: 1000px;
+      transition: max-height 0.3s ease-in-out;
+    }
+    .rotate-icon {
+      transition: transform 0.2s ease;
+    }
+    .rotate-icon.active {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-800 pb-20 relative">
+
+  <!-- ================= UTAMA / MAIN APP ================= -->
+  <div class="max-w-md mx-auto px-4 pt-6 pb-10">
+    
+    <!-- Header Premium -->
+    <div class="text-center mb-6">
+      <img src="https://i.ibb.co/nq1VXtqN/DH-LOGO.png" alt="Logo" class="h-20 w-auto mx-auto mb-2 drop-shadow-md object-contain">
+      <h1 class="sos-title text-4xl sm:text-5xl font-black text-rose-600 drop-shadow-sm tracking-tight leading-none">
+        S.O.S
+      </h1>
+      <p class="text-[11px] font-bold tracking-[0.2em] text-slate-400 uppercase mt-1">
+        Methodist Primary School
+      </p>
+    </div>
+
+    <!-- Ruang Carian -->
+    <div class="relative mb-6">
+      <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+      </div>
+      <input type="text" id="inputNama" class="w-full pl-10 pr-24 py-3.5 bg-white border border-slate-200 rounded-2xl shadow-sm text-sm font-medium focus:outline-none focus:ring-2 focus:ring-rose-500/20 focus:border-rose-500 transition-all placeholder:text-slate-400" placeholder="Cari nama murid..." onkeypress="semakEnter(event)">
+      <button onclick="mulaCari()" class="absolute right-1.5 top-1.5 bottom-1.5 px-4 bg-rose-600 hover:bg-rose-700 text-white font-semibold text-xs rounded-xl shadow-sm transition-all active:scale-95">
+        Cari
+      </button>
+    </div>
+
+    <!-- Status Loading -->
+    <div id="loading" class="hidden text-center py-6 text-slate-400 text-xs font-medium animate-pulse">
+      Mencari maklumat murid...
+    </div>
+
+    <!-- Container Hasil Carian Murid -->
+    <div id="zonHasil" class="space-y-2.5 mb-8"></div>
+
+    <!-- ACCORDION: SENARAI TALIAN KECEMASAN (NATIVE CALL LINKS) -->
+    <div class="bg-white border border-rose-100 rounded-2xl shadow-xs overflow-hidden transition-all mb-6">
+      <button onclick="toggleEmergency()" class="w-full p-4 text-left flex items-center justify-between bg-rose-50/50 hover:bg-rose-50 transition-colors">
+        <div class="flex items-center space-x-2">
+          <span class="text-base">🚨</span>
+          <span class="font-bold text-rose-700 text-xs tracking-wide uppercase">Senarai Talian Kecemasan</span>
+        </div>
+        <svg id="iconEmergency" class="rotate-icon w-4 h-4 text-rose-400 shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+        </svg>
+      </button>
+
+      <div id="contentEmergency" class="accordion-content border-t border-rose-100/60 bg-white">
+        <div class="p-3 space-y-2.5 text-xs">
+          
+          <!-- MERS 999 -->
+          <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+            <div>
+              <div class="font-bold text-slate-800 text-[11px]">MERS</div>
+              <div class="text-[10px] text-slate-400 font-mono">999</div>
+            </div>
+            <a href="tel:999" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-700 text-white text-[10px] font-bold rounded-lg shadow-2xs active:scale-95 transition-all inline-block">
+              📞 Call
+            </a>
+          </div>
+
+          <!-- IPD Petaling Jaya -->
+          <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+            <div>
+              <div class="font-bold text-slate-800 text-[11px]">IPD Petaling Jaya</div>
+              <div class="text-[10px] text-slate-400 font-mono">03-7966 2222</div>
+            </div>
+            <a href="tel:0379662222" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-[10px] font-bold rounded-lg shadow-2xs active:scale-95 transition-all inline-block">
+              📞 Call
+            </a>
+          </div>
+
+          <!-- PPUM -->
+          <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+            <div>
+              <div class="font-bold text-slate-800 text-[11px]">Pusat Perubatan UM (PPUM)</div>
+              <div class="text-[10px] text-slate-400 font-mono">03-7949 4422</div>
+            </div>
+            <a href="tel:0379494422" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-[10px] font-bold rounded-lg shadow-2xs active:scale-95 transition-all inline-block">
+              📞 Call
+            </a>
+          </div>
+
+          <!-- Bomba PJ -->
+          <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+            <div>
+              <div class="font-bold text-slate-800 text-[11px]">Balai Bomba Petaling Jaya</div>
+              <div class="text-[10px] text-slate-400 font-mono">03-7958 5857</div>
+            </div>
+            <a href="tel:0379585857" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-[10px] font-bold rounded-lg shadow-2xs active:scale-95 transition-all inline-block">
+              📞 Call
+            </a>
+          </div>
+
+          <!-- PANTAS MBPJ -->
+          <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+            <div>
+              <div class="font-bold text-slate-800 text-[11px]">Bilik Gerakan PANTAS MBPJ</div>
+              <div class="text-[10px] text-slate-400 font-mono">03-7957 4113</div>
+            </div>
+            <a href="tel:0379574113" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-[10px] font-bold rounded-lg shadow-2xs active:scale-95 transition-all inline-block">
+              📞 Call
+            </a>
+          </div>
+
+          <!-- Talian Kasih -->
+          <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+            <div>
+              <div class="font-bold text-slate-800 text-[11px]">Talian Kasih</div>
+              <div class="text-[10px] text-slate-400 font-mono">15999</div>
+            </div>
+            <a href="tel:15999" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-900 text-white text-[10px] font-bold rounded-lg shadow-2xs active:scale-95 transition-all inline-block">
+              📞 Call
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FIXED FOOTER -->
+  <footer class="fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-slate-200/80 py-2.5 px-4 text-center z-30">
+    <p class="text-[10px] font-semibold text-slate-500 tracking-tight">
+      Digital Hub SK Methodist PJ. MPS-S.O.S Version 1.0 (2026)
+    </p>
+  </footer>
+
+  <script>
+    // ==============================================================================
+    // PAUTAN GOOGLE APPS SCRIPT WEB APP (API BACKEND)
+    // ==============================================================================
+    const API_URL = "https://script.google.com/macros/s/AKfycbyYAhoKwwrIbl4qHZHh0Zkqco65tPHDKNqvx9CtxNU1LQE2-mXY-NZ9irsPqibVSCA/exec";
+
+    function semakEnter(e) { 
+      if (e.key === 'Enter') mulaCari(); 
+    }
+
+    function cleanPhone(no) { 
+      if (!no || no.toString().trim() === "" || no.toString().trim() === "-") return "";
+      return no.toString().replace(/[^0-9]/g, ''); 
+    }
+
+    function formatPhoneDisplay(no) {
+      var cleaned = cleanPhone(no);
+      if (!cleaned) return "";
+      if (cleaned.length === 10) {
+        return cleaned.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2 $3');
+      } else if (cleaned.length === 11) {
+        return cleaned.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2 $3');
+      }
+      return cleaned;
+    }
+
+    function formatWhatsApp(no) { 
+      var c = cleanPhone(no); 
+      if (!c) return "";
+      return c.startsWith('0') ? '6' + c : c; 
+    }
+
+    function isValid(val) { 
+      return val && val.toString().trim() !== "" && val.toString().trim() !== "-"; 
+    }
+
+    function toggleCard(index) {
+      var content = document.getElementById('content-' + index);
+      var icon = document.getElementById('icon-' + index);
+      document.querySelectorAll('.accordion-content').forEach(function(c, i) {
+        if (c.id !== 'contentEmergency' && i !== index) { 
+          c.classList.remove('active'); 
+        }
+      });
+      content.classList.toggle('active');
+      icon.classList.toggle('active');
+    }
+
+    function toggleEmergency() {
+      document.getElementById('contentEmergency').classList.toggle('active');
+      document.getElementById('iconEmergency').classList.toggle('active');
+    }
+
+    // CARIAN VIA FETCH API DARI GOOGLE APPS SCRIPT
+    function mulaCari() {
+      var nama = document.getElementById('inputNama').value;
+      var loading = document.getElementById('loading');
+      var zonHasil = document.getElementById('zonHasil');
+
+      if (!nama || nama.trim() === "") return;
+
+      loading.classList.remove('hidden');
+      zonHasil.innerHTML = "";
+
+      fetch(API_URL + "?nama=" + encodeURIComponent(nama))
+        .then(response => response.json())
+        .then(results => {
+          loading.classList.add('hidden');
+
+          if (!results || results.length === 0) {
+            zonHasil.innerHTML = `
+              <div class="p-4 text-center bg-white border border-slate-100 rounded-2xl text-xs text-slate-500 shadow-sm">
+                Tiada rekod murid dijumpai.
+              </div>`;
+            return;
+          }
+
+          results.forEach(function(m, idx) {
+            var bapaHpClean = cleanPhone(m.hpBapa);
+            var bapaHpDisplay = formatPhoneDisplay(m.hpBapa);
+            var bapaWaClean = formatWhatsApp(m.hpBapa);
+
+            var ibuHpClean = cleanPhone(m.hpIbu);
+            var ibuHpDisplay = formatPhoneDisplay(m.hpIbu);
+            var ibuWaClean = formatWhatsApp(m.hpIbu);
+
+            var html = `
+              <div class="bg-white border border-slate-100 rounded-2xl shadow-sm overflow-hidden transition-all">
+                <button onclick="toggleCard(${idx})" class="w-full p-4 text-left flex items-center justify-between hover:bg-slate-50/50 transition-colors">
+                  <div class="flex items-center space-x-3 overflow-hidden">
+                    <span class="px-2.5 py-1 bg-rose-50 text-rose-600 font-extrabold text-[10px] rounded-lg border border-rose-100/50 shrink-0">
+                      ${m.kelas || 'N/A'}
+                    </span>
+                    <span class="font-bold text-slate-800 text-sm truncate">
+                      ${m.nama}
+                    </span>
+                  </div>
+                  <svg id="icon-${idx}" class="rotate-icon w-4 h-4 text-slate-400 shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/>
+                  </svg>
+                </button>
+
+                <div id="content-${idx}" class="accordion-content border-t border-slate-50 bg-slate-50/30">
+                  <div class="p-4 space-y-3.5 text-xs">
+                    
+                    <div class="text-[11px] text-slate-400 font-medium">
+                      No. KP/Pasport: <span class="text-slate-600 font-semibold">${m.noKP || 'Tiada'}</span>
+                    </div>
+
+                    <!-- BAPA -->
+                    <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-2xs space-y-2">
+                      <div class="font-bold text-slate-700 flex items-center justify-between">
+                        <div class="truncate mr-2"><span class="mr-1">👨‍👦</span> Bapa: <span class="font-medium text-slate-600">${isValid(m.namaBapa) ? m.namaBapa : 'Tiada Data'}</span></div>
+                      </div>
+                      ${bapaHpClean ? `
+                        <div class="text-[11px] font-bold text-slate-800 bg-slate-50 px-2.5 py-1 rounded-lg inline-block border border-slate-100">
+                          📱 ${bapaHpDisplay}
+                        </div>
+                        <div class="flex space-x-2 pt-1">
+                          <!-- NATIVE TEL LINK (DIRECT DIAL WITHOUT POPUP) -->
+                          <a href="tel:${bapaHpClean}" class="flex-1 py-2 bg-slate-800 hover:bg-slate-900 text-white font-semibold rounded-lg text-center active:scale-95 transition-all block">
+                            📞 Call
+                          </a>
+                          <!-- NATIVE WHATSAPP LINK -->
+                          <a href="https://wa.me/${bapaWaClean}" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg text-center active:scale-95 transition-all block">
+                            💬 WhatsApp
+                          </a>
+                        </div>
+                      ` : `
+                        <div class="text-[10px] text-rose-500 font-medium bg-rose-50/60 p-2 rounded-lg border border-rose-100">
+                          ⚠️ No H/P Bapa tiada di dalam sistem data induk murid.
+                        </div>
+                      `}
+                    </div>
+
+                    <!-- IBU -->
+                    <div class="bg-white p-3 rounded-xl border border-slate-100 shadow-2xs space-y-2">
+                      <div class="font-bold text-slate-700 flex items-center justify-between">
+                        <div class="truncate mr-2"><span class="mr-1">👩‍👦</span> Ibu: <span class="font-medium text-slate-600">${isValid(m.namaIbu) ? m.namaIbu : 'Tiada Data'}</span></div>
+                      </div>
+                      ${ibuHpClean ? `
+                        <div class="text-[11px] font-bold text-slate-800 bg-slate-50 px-2.5 py-1 rounded-lg inline-block border border-slate-100">
+                          📱 ${ibuHpDisplay}
+                        </div>
+                        <div class="flex space-x-2 pt-1">
+                          <!-- NATIVE TEL LINK (DIRECT DIAL WITHOUT POPUP) -->
+                          <a href="tel:${ibuHpClean}" class="flex-1 py-2 bg-slate-800 hover:bg-slate-900 text-white font-semibold rounded-lg text-center active:scale-95 transition-all block">
+                            📞 Call
+                          </a>
+                          <!-- NATIVE WHATSAPP LINK -->
+                          <a href="https://wa.me/${ibuWaClean}" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-lg text-center active:scale-95 transition-all block">
+                            💬 WhatsApp
+                          </a>
+                        </div>
+                      ` : `
+                        <div class="text-[10px] text-rose-500 font-medium bg-rose-50/60 p-2 rounded-lg border border-rose-100">
+                          ⚠️ No H/P Ibu tiada di dalam sistem data induk murid.
+                        </div>
+                      `}
+                    </div>
+
+                    <!-- GURU KELAS -->
+                    <div class="pt-1 flex items-center justify-between text-[11px] text-slate-500 px-1">
+                      <span class="font-semibold">👩‍🏫 Guru Kelas:</span>
+                      <span class="font-bold text-indigo-600">${isValid(m.guruKelas) ? m.guruKelas : 'Tiada Data'}</span>
+                    </div>
+
+                  </div>
+                </div>
+
+              </div>
+            `;
+            zonHasil.innerHTML += html;
+          });
+        })
+        .catch(err => {
+          loading.classList.add('hidden');
+          zonHasil.innerHTML = `
+            <div class="p-4 text-center bg-rose-50 text-rose-600 rounded-2xl text-xs font-semibold">
+              Gagal memuat naik data. Sila semak pautan internet atau skrip backend.
+            </div>`;
+        });
+    }
+  </script>
+</body>
+</html>
