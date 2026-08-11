@@ -57,38 +57,41 @@
 </head>
 <body class="min-h-screen text-slate-800 pb-20 relative">
 
-  <!-- 🚧 MULA: LAYER PENYELENGGARAAN 🚧 -->
+<!-- 🚧 MULA: LAYER PENYELENGGARAAN 🚧 -->
   <div id="maintenanceOverlay" class="fixed inset-0 bg-slate-900/95 backdrop-blur-md z-50 flex flex-col items-center justify-center p-6 text-center text-white">
     <div class="bg-slate-800/90 border border-slate-700/80 p-6 sm:p-8 rounded-3xl max-w-sm w-full shadow-2xl space-y-4">
       
-      <div class="w-16 h-16 bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-inner">
+      <!-- ICON 🚧 (DITAMBAH PULSE) -->
+      <div class="w-16 h-16 bg-rose-500/10 text-rose-500 border border-rose-500/20 rounded-2xl flex items-center justify-center mx-auto text-3xl shadow-inner animate-pulse">
         🚧
       </div>
 
+      <!-- TAJUK MESEJ (DITAMBAH PULSE & WARNA ROSE) -->
       <div>
-        <h2 class="text-xl font-extrabold text-white tracking-tight">Sistem Tergendala</h2>
-        <p class="text-[11px] text-rose-400 font-bold tracking-wider uppercase mt-0.5">Penyelenggaraan Sementara</p>
+        <h2 class="text-xl font-extrabold text-rose-500 tracking-tight animate-pulse">Sistem Tergendala</h2>
+        <p class="text-[11px] text-rose-400/80 font-bold tracking-wider uppercase mt-0.5">Penyelenggaraan Sementara</p>
       </div>
 
+      <!-- PENJELASAN -->
       <p class="text-xs text-slate-300 leading-relaxed">
-        Sistem MPS S.O.S ditutup atau diselenggara buat sementara waktu untuk urusan kemaskini dan kawalan keselamatan data.
+        Sistem MPS S.O.S ditutup buat sementara waktu untuk urusan kemaskini dan kawalan keselamatan data.
       </p>
 
+      <!-- BOT DEVELOPER -->
       <div class="pt-3 border-t border-slate-700/60 text-xs text-slate-400 space-y-2">
-        <p class="text-[11px]">Sila hubungi pembangun sistem untuk sebarang bantuan atau kebenaran akses:</p>
+        <p class="text-[11px]">Sila hubungi developer / admin berikut untuk sebarang bantuan:</p>
         
         <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-700 flex flex-col items-center justify-center space-y-1">
-          <span class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Developer / Administrator JK Transformasi Digital MPS</span>
+          <span class="text-[10px] text-slate-400 uppercase tracking-widest font-bold">Developer / Administrator</span>
           <span class="font-extrabold text-rose-400 text-sm">👨‍💻 Cikgu Ahmad Muhaimin</span>
           <span class="font-extrabold text-rose-400 text-sm">👩‍💻 Cikgu Nik Nur A’liyah</span>
-          <span class="font-extrabold text-rose-400 text-sm">👨‍💻 Cikgu Hafzan Safuan</span>
-          <span class="font-extrabold text-rose-400 text-sm">👩‍💻 Cikgu Siti Azlin</span>
         </div>
       </div>
 
     </div>
   </div>
   <!-- 🚧 TAMAT: LAYER PENYELENGGARAAN 🚧 -->
+  
   <!-- ================= UTAMA / MAIN APP ================= -->
   <div class="max-w-md mx-auto px-4 pt-6 pb-10">
     
